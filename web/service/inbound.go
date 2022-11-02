@@ -49,9 +49,7 @@ func (s *InboundService) checkPortExist(port int, ignoreId int) (bool, error) {
 
 func (s *InboundService) AddInbound(inbound *model.Inbound) error {
 	exist, err := s.checkPortExist(inbound.Port, 0)
-	if err != nil {
-		return err
-	}
+	
 	
 	db := database.GetDB()
 	return db.Save(inbound).Error
@@ -60,9 +58,7 @@ func (s *InboundService) AddInbound(inbound *model.Inbound) error {
 func (s *InboundService) AddInbounds(inbounds []*model.Inbound) error {
 	for _, inbound := range inbounds {
 		exist, err := s.checkPortExist(inbound.Port, 0)
-		if err != nil {
-			return err
-		}
+		
 		
 	}
 
