@@ -27,6 +27,7 @@ func (a *InboundController) initRouter(g *gin.RouterGroup) {
 	g = g.Group("/inbound")
 
 	g.POST("/list", a.getInbounds)
+	g.POST("/get/:id", a.getInbound)
 	g.POST("/add", a.addInbound)
 	g.POST("/del/:id", a.delInbound)
 	g.POST("/update/:id", a.updateInbound)
@@ -44,6 +45,17 @@ func (a *InboundController) startTask() {
 		}
 	})
 }
+
+func (a *InboundController) getInbound(c *gin.Context) {
+	user := session.GetLoginUser(c)
+	inbounds, err := a.inboundService.GetInbound(user.Id)
+	if err != nil {
+		jsonMsg(c, "获取", err)
+		return
+	}
+	jsonObj(c, inbounds, nil)
+}
+
 
 func (a *InboundController) getInbounds(c *gin.Context) {
 	user := session.GetLoginUser(c)
